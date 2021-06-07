@@ -1,0 +1,67 @@
+/* COMMONS */
+/* SECTION */
+.section .container {
+    width: 750px;
+}
+
+/* BUTTON */
+.btn {
+    padding: 10px 0;
+    border-radius: 5px;
+}
+
+/* INPUT STATE */
+.input-state {
+    font-size: .75rem;
+    margin: .75rem 0;
+}
+
+.section__log-in .container,
+.section__register .container {
+    margin-top: 50px;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    box-shadow: -2px -2px 8px rgb(255, 255, 255, .3),
+                2px 2px 8px rgb(0, 0, 0, .3);
+}
+
+/* LOG IN */
+#form--log-in {
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, .3);
+}
+
+.section__log-in .input--text {
+    margin-bottom: 20px;
+}
+
+.section__log-in .btn {
+    width: 100%;
+}
+
+.section__log-in .btn--log-in,
+.section__register .btn--wrap .btn--reg-submit {
+    background: #a80e00;
+}
+
+.section__log-in .btn--register,
+.section__register .btn--wrap .btn--cancel {
+    border: 1px solid #DA1300;
+    color: #DA1300;
+}
+
+/* REGISTER */
+.section__register .input-area {
+    margin-bottom: 20px;
+}
+
+.section__register .btn--wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section__register .btn--wrap .btn {
+    flex: .48;
+}

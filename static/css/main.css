@@ -5,6 +5,7 @@
     font-weight: 400;
     color: #F9FBFB;
     background: #0F1014;
+    min-height: 100vh;
 }
 
 /* SECTION */
@@ -45,9 +46,15 @@ img {
 
 /* INPUT */
 .input--text {
+    width: 100%;
     background: none;
     color: #F9FBFB;
     border: none;
+    font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 5px;
+    padding: 10px 15px;
+    box-sizing: border-box;
 }
 
 .input--text:focus {
@@ -65,15 +72,15 @@ img {
 
 /* VENDOR PREFIX */
 .input--text::-webkit-input-placeholder {
-    color: #ddd;
+    color: rgba(255, 255, 255, .5);
 }
 
 .input--text::-ms-input-placeholder {
-    color: #ddd;
+    color: rgba(255, 255, 255, .5);
 }
 
 .input--text::-moz-input-placeholder {
-    color: #ddd;
+    color: rgba(255, 255, 255, .5);
 }
 
 /* TRANSLATE */
@@ -116,7 +123,7 @@ header.section .log-in {
 }
 
 header.section .log-in a {
-    color:rgba(255, 255, 255, .7)
+    color:rgba(255, 255, 255, .7);
 }
 
 /* CONTENT */

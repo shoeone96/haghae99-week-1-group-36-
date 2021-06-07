@@ -1,3 +1,11 @@
 .hide {
     display: none !important;
 }
+
+.danger {
+    color: #f14668 !important;
+}
+
+.complete {
+    color: #48c774 !important;
+}
