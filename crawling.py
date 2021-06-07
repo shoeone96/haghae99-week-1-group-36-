@@ -10,7 +10,7 @@ movies = soup.select('#content > div.article > div:nth-child(1) > div.lst_wrap >
 
 
 for movie in movies:
-    img = movie.select_one('div > a > img')['src']
+    img = movie.select_one('div > a > img')['src'].split('?')[0]
     reserve = movie.select_one('dl > dd.info_t1 > div > a')
     if reserve is not None and reserve.text == '예매하기':
         book_link = reserve['href']
