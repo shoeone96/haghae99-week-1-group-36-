@@ -92,6 +92,15 @@ img {
     color: #ddd;
 }
 
+/* TRANSLATE */
+.vendor-translate {
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+
 /* HEADER */
 header.section {
     border-bottom: 1px solid rgba(255, 255, 255, .3);
@@ -109,7 +118,6 @@ header.section .log-in {
 
 header.section .logo {
     left: 50%;
-    transform: translate(-50%, -50%);
     font-size: 60px;
     /* font-family: 'Staatliches', cursive; */
     /* font-family: 'Roboto Mono', monospace; */
@@ -121,6 +129,10 @@ header.section .logo {
 header.section .log-in {
     right: 0;
     transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
 }
 
 header.section .log-in a {
@@ -191,6 +203,10 @@ header.section .log-in a {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
 }
 
 .section__content .movie-info .hidden-box .grade {
