@@ -1,25 +1,10 @@
 /* COMMON */
-@font-face {
-    font-family: 'ELAND_Choice_B';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_B.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'ELAND_Nice_M';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Nice_M.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
 .body__container {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #F9FBFB;
     background: #0F1014;
-    min-height: 100vh;
 }
 
 /* SECTION */
@@ -31,7 +16,6 @@
     position: relative;
     width: 1280px;
     margin: 0 auto;
-    display: flex;
 }
 
 /* TAG INITAILIZE */
@@ -118,12 +102,8 @@ header.section .log-in {
 
 header.section .logo {
     left: 50%;
-    font-size: 60px;
-    /* font-family: 'Staatliches', cursive; */
-    /* font-family: 'Roboto Mono', monospace; */
-    /* font-family: 'ELAND_Choice_B'; */
-    /* font-family: 'ELAND_Nice_M'; */
-    font-family: 'Black Han Sans', sans-serif;
+    font-size: 100px;
+    font-family: 'Staatliches', cursive;
 }
 
 header.section .log-in {
@@ -141,6 +121,7 @@ header.section .log-in a {
 
 /* CONTENT */
 .section__content .container {
+    display: flex;
     flex-wrap: wrap;
     padding-bottom: 80px;
 }
@@ -148,14 +129,19 @@ header.section .log-in a {
 .section__content .movie-info {
     width: 280px;
     padding: 20px;
-    border-radius: 10px;
-    overflow: hidden;
 }
 
 .section__content .movie-info .info__link {
     position: relative;
     display: block;
+    height: 400px;
     margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.section__content .movie-info .info__link img {
+    border-radius: 10px;
 }
 
 .section__content .movie-info .rank {
@@ -176,6 +162,8 @@ header.section .log-in a {
     border-radius: 50%;
     background-image: url('../img/15.png');
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .section__content .movie-info .hidden-box,
@@ -202,11 +190,6 @@ header.section .log-in a {
     font-size: 14px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
 }
 
 .section__content .movie-info .hidden-box .grade {
