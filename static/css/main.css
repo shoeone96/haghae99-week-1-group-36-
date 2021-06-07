@@ -1,4 +1,18 @@
 /* COMMON */
+@font-face {
+    font-family: 'ELAND_Choice_B';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_B.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ELAND_Nice_M';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Nice_M.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .body__container {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
@@ -84,7 +98,7 @@ header.section {
 }
 
 header.section .container {
-    height: 100px;
+    height: 130px;
 }
 
 header.section .logo,
@@ -96,11 +110,12 @@ header.section .log-in {
 header.section .logo {
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-header.section .logo a {
-    font-size: 45px;
-    font-family: 'Staatliches', cursive;
+    font-size: 60px;
+    /* font-family: 'Staatliches', cursive; */
+    /* font-family: 'Roboto Mono', monospace; */
+    /* font-family: 'ELAND_Choice_B'; */
+    /* font-family: 'ELAND_Nice_M'; */
+    font-family: 'Black Han Sans', sans-serif;
 }
 
 header.section .log-in {
