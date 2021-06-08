@@ -39,7 +39,7 @@ def favicon():
 @app.route('/login')
 def login():
     return render_template('log-in.html')
-
+    
 @app.route('/login', methods=['POST'])
 def sign_up():
     # 회원가입

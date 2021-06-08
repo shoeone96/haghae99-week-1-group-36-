@@ -4,9 +4,29 @@
     width: 980px;
 }
 
+/* GRADE */
+.grade,
+.grade .score {
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    display: flex;
+}
+
+.grade {
+    background: conic-gradient(#DA1300 83%, #30333f 27%);
+}
+
+.grade .score {
+    width: 90%;
+    height: 90%;
+}
+
 /* INFO */
 .section__info .container {
-    padding: 50px 0 100px;
+    padding: 50px 0;
+    margin-bottom: 50px;
+    border-bottom: 1px solid rgba(255, 255, 255, .3);
 }
 
 .section__info .info__top {
@@ -36,14 +56,9 @@
     color: #ccc;
 }
 
-.section__info .basic-info .detail-info,
-.section__info .basic-info .detail-info .grade,
-.section__info .basic-info .detail-info .grade .score {
+.section__info .basic-info .detail-info {
     display: flex;
     align-items: center;
-}
-
-.section__info .basic-info .detail-info {
     justify-content: space-between;
 }
 
@@ -83,23 +98,14 @@
 }
 
 /* GRADE */
-.section__info .basic-info .detail-info .grade,
-.section__info .basic-info .detail-info .grade .score {
-    justify-content: center;
-    border-radius: 50%;
-}
-
 .section__info .basic-info .detail-info .grade {
     width: 80px;
     height: 80px;
-    background: conic-gradient(#DA1300 83%, #0F1014 27%);
 }
 
 .section__info .basic-info .detail-info .grade .score {
-    width: 90%;
-    height: 90%;
-    background: #0F1014;
     font-size: 25px;
+    background: #0F1014;
 }
 
 .section__info .basic-info .btn--wrap {
@@ -134,4 +140,145 @@
 .section__info .summary--description {
     text-align: justify;
     color: #ccc;
+}
+
+/* REVIEW */
+.section__review .container {
+    padding-bottom: 100px;
+}
+
+.section__review .review-wrap {
+    padding-bottom: 50px;
+}
+
+.section__review .review,
+.section__review .write-review {
+    background: #F9FBFB;
+    color: #0F1014;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.section__review .review {
+    margin-bottom: 20px;
+    padding: 20px 30px;
+    box-sizing: border-box;
+}
+
+.section__review .review:last-child {
+    margin-bottom: 0;
+}
+
+.section__review .review .grade {
+    width: 50px;
+    height: 50px;
+    margin-right: 30px;
+}
+
+.section__review .review .grade .score {
+    background: #F9FBFB;
+}
+
+.section__review .review-description {
+    flex: 1;
+}
+
+.section__review .review .review-description .user-id {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #666;
+}
+
+.section__review .review .review-description .user-comment {
+    margin: 20px 0 30px;
+}
+
+.section__review .review .review-description .review-bottom {
+    display: flex;
+    justify-content: space-between;
+    color: #999;
+    font-size: 14px;
+}
+
+.section__review .review .review-description .btn {
+    color: #999;
+    font-size: 14px;
+}
+
+.section__review .review .review-description .btn--edit {
+    margin-right: 10px;
+}
+
+.section__review .review .review-description .btn:hover {
+    color: #0F1014;
+}
+
+/* WRITE REVIEW */
+.section__review .write-review .score-wrap {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #d8dada;
+}
+
+.section__review .write-review .score-wrap .score-info {
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.section__review .write-review .score-wrap .btn--star {
+    width: 22px;
+    height: 22px;
+    text-indent: -9999px;
+    background: transparent url('../img/star.png') no-repeat 0 0;
+    background-size: contain;
+    transition: all 0.3s ease-in-out;
+}
+
+.section__review .write-review .score-wrap .btn--star.on {
+    background: transparent url('../img/star-on.png') no-repeat 0 0;
+    background-size: contain;
+}
+
+.section__review .write-review .enter-area {
+    flex: 1;
+    padding: 15px 20px;
+}
+
+#input-review {
+    resize: none;
+    height: 100px;
+    color: #0F1014;
+    padding: 0;
+    border: none;
+}
+
+/* VENDOR PREFIX */
+.input--text::-webkit-input-placeholder {
+    color: #0f10146b;
+}
+
+.input--text::-ms-input-placeholder {
+    color: #0f10146b;
+}
+
+.input--text::-moz-input-placeholder {
+    color: #0f10146b;
+}
+
+.section__review .write-review .enter-area .length-info {
+    color: #999;
+    font-size: 12px;
+}
+
+.section__review .write-review .enter-area .length-info .length {
+    color: #0F1014;
+}
+
+.section__review .write-review .btn--submit {
+    width: 150px;
+    background: #30333f;
 }
