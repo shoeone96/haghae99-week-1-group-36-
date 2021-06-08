@@ -63,7 +63,7 @@ def page():
 
 @app.route('/detail', methods=['GET'])
 def detail():
-    code = int(request.args.get('code')) - 1
+    code = int(request.args.get('code'))
     detail_info = get_movie_summary(code)
 
     return render_template('detail.html', detail_info=detail_info)

@@ -123,7 +123,7 @@
 }
 
 .section__info .summary {
-    color: #ccc;
+    white-space: pre-line;
 }
 
 .section__info .summary--title {
@@ -133,4 +133,5 @@
 
 .section__info .summary--description {
     text-align: justify;
+    color: #ccc;
 }

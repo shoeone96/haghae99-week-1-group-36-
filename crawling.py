@@ -73,16 +73,17 @@ def get_movie_summary(code):
 
     detail_info['title'] = target['title']
     detail_info['img'] = target['img']
+    detail_info['link'] = target['link']
 
-    if target['opening_date']: detail_info['opening_date'] = target['opening_date']
-    if target['genre']: detail_info['genre'] = target['genre']
-    if target['show_time']: detail_info['show_time'] = target['show_time']
-    if target['director']: detail_info['director'] = target['director']
-    if target['actor']: detail_info['actor'] = target['actor']
-    if target['age']: detail_info['age'] = target['age']
-    if target['reserve']: detail_info['reserve'] = target['reserve']
+    if "opening_date" in target: detail_info['opening_date'] = target['opening_date']
+    if "genre" in target: detail_info['genre'] = target['genre']
+    if "show_time" in target: detail_info['show_time'] = target['show_time']
+    if "director" in target: detail_info['director'] = target['director']
+    if "actor" in target: detail_info['actor'] = target['actor']
+    if "age" in target: detail_info['age'] = target['age']
+    if "reserve" in target: detail_info['reserve'] = target['reserve']
 
-    if summary_tit: detail_info['summary_tit'] = no_space(summary_tit.text)
-    if summary_des: detail_info['summary_des'] = no_space(summary_des.text)
-
+    if summary_tit: detail_info['summary_tit'] = summary_tit.text
+    if summary_des: detail_info['summary_des'] = summary_des.text
+    
     return detail_info

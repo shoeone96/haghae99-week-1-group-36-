@@ -243,9 +243,6 @@ header.section .log-in a {
 .btn--wrap .btn--ticketing {
     /* flex: .55; */
     flex: 1;
-    height: 100%;
-    border-radius: 5px;
-    background: #DA1300;
 }
 
 .btn--wrap .btn--ticketing a {
@@ -254,6 +251,8 @@ header.section .log-in a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    background: #DA1300;
+    border-radius: 5px;
 }
 
 .btn--wrap .btn--ticketing .naver-movie {
