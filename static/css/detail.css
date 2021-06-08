@@ -1,6 +1,12 @@
+/* COMMON */
+/* SECTION */
+.section .container {
+    width: 980px;
+}
+
 /* INFO */
 .section__info .container {
-    padding: 50px 0;
+    padding: 50px 0 100px;
 }
 
 .section__info .info__top {
@@ -123,4 +129,8 @@
 .section__info .summary--title {
     font-size: 1.2rem;
     margin-bottom: 20px;
+}
+
+.section__info .summary--description {
+    text-align: justify;
 }
