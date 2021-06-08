@@ -5,7 +5,7 @@ import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
-from crawling import get_movie_info
+from crawling import get_movie_info, get_movie_summary
 import os
 from math import ceil
 
@@ -60,6 +60,13 @@ def page():
     order = int(request.args.get('order'))
 
     return render_template('index.html', movie_list=movie_list[20 * order:20 * (order + 1)], page_count=page_count)
+
+@app.route('/detail', methods=['GET'])
+def detail():
+    code = int(request.args.get('code')) - 1
+    detail_info = get_movie_summary(code)
+
+    return render_template('detail.html', detail_info=detail_info)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

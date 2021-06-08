@@ -256,6 +256,10 @@ header.section .log-in a {
     justify-content: center;
 }
 
+.btn--wrap .btn--ticketing .naver-movie {
+    background: #2CB300;
+}
+
 /* PAGE GENERATOR */
 .generator,
 .generator .page-wrap,

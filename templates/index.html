@@ -52,7 +52,7 @@
             
             {% for movie in movie_list %}
             <div class="movie-info">
-                <a href={{ movie.link }} class="info__link">
+                <a href="/detail" class="info__link">
                     <p class="rank">{{ movie.id }}</p>
                     <img src={{ movie.img }} alt={{ movie.title }}>
                     {% if movie.age %}
@@ -81,7 +81,7 @@
                         {% if movie.reserve %}
                             <a target="_blank" href={{ movie.reserve }}>예매하기</a>
                         {% else %}
-                            <a href={{ movie.link }}>평점 / 후기 보기</a>
+                            <a href={{ movie.link }} class="naver-movie">네이버 영화</a>
                         {% endif %}
                     </button>
                     
@@ -107,5 +107,6 @@
 
 <script src="../static/js/page-generator.js"></script>
 <script src="../static/js/viewing-age.js"></script>
+<script src="../static/js/detail-info.js"></script>
 </body>
 </html>

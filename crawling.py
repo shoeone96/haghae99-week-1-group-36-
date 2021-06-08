@@ -2,13 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
+from requests.api import get
+
+headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+
 def no_space(text):
     text1 = re.sub('&nbsp; | &nbsp;| \n|\t|\r', '', text)
     text2 = re.sub('\n\n', '', text1)
     return text2.strip()
 
 def get_movie_info():
-    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
     data = requests.get('https://movie.naver.com/movie/running/current.nhn',headers=headers)
 
     soup = BeautifulSoup(data.text, 'html.parser')
@@ -37,7 +40,7 @@ def get_movie_info():
         movie_info['id'] = idx + 1
         movie_info['title'] = title.text
         movie_info['img'] = movie.select_one('div > a > img')['src'].split('?')[0]
-        movie_info['link'] = title['href']
+        movie_info['link'] = 'https://movie.naver.com' + title['href']
 
         if reserve: movie_info['reserve'] = 'https://movie.naver.com' + reserve['href']
         if age: movie_info['age'] = age.text
@@ -52,3 +55,34 @@ def get_movie_info():
         movie_list.append(movie_info)
 
     return movie_list
+
+movies = get_movie_info()
+
+def get_movie_summary(code):
+    target = movies[code]
+    url = target['link']
+    data = requests.get(url, headers=headers)
+
+    soup = BeautifulSoup(data.text, 'html.parser')
+
+    movie = soup.select_one('#content > div.article > div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area')
+    summary_tit = movie.select_one('h5')
+    summary_des = movie.select_one('p')
+
+    detail_info = dict()
+
+    detail_info['title'] = target['title']
+    detail_info['img'] = target['img']
+
+    if target['opening_date']: detail_info['opening_date'] = target['opening_date']
+    if target['genre']: detail_info['genre'] = target['genre']
+    if target['show_time']: detail_info['show_time'] = target['show_time']
+    if target['director']: detail_info['director'] = target['director']
+    if target['actor']: detail_info['actor'] = target['actor']
+    if target['age']: detail_info['age'] = target['age']
+    if target['reserve']: detail_info['reserve'] = target['reserve']
+
+    if summary_tit: detail_info['summary_tit'] = no_space(summary_tit.text)
+    if summary_des: detail_info['summary_des'] = no_space(summary_des.text)
+
+    return detail_info
