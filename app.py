@@ -25,7 +25,7 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('localhost', 27017)
 db = client.dbsparta
 
-movie_list = get_movie_info()
+movie_list = get_movie_info()   
 page_count = ceil(len(movie_list) / 20)
 
 @app.route('/')
