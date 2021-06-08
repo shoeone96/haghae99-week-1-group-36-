@@ -1,0 +1,126 @@
+/* INFO */
+.section__info .container {
+    padding: 50px 0;
+}
+
+.section__info .info__top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section__info .poster {
+    width: 300px;
+    border-radius: 10px;
+}
+
+.section__info .basic-info {
+    flex: .9;
+    position: relative;
+}
+
+.section__info .basic-info .info__title {
+    font-size: 2rem;
+    line-height: 2;
+    margin-top: 80px;
+}
+
+.section__info .basic-info .opening-date {
+    font-size: 14px;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+.section__info .basic-info .detail-info,
+.section__info .basic-info .detail-info .grade,
+.section__info .basic-info .detail-info .grade .score {
+    display: flex;
+    align-items: center;
+}
+
+.section__info .basic-info .detail-info {
+    justify-content: space-between;
+}
+
+/* MOVIE SUMMARY */
+.section__info .basic-info .detail-info .movie-summary .sub-info {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.section__info .basic-info .detail-info .movie-summary .sub-info:last-child {
+    margin-bottom: 0;
+}
+
+.section__info .basic-info .detail-info .movie-summary .sub-info em {
+    margin-right: 10px;
+}
+
+.section__info .basic-info .detail-info .movie-summary .sub-info em:last-child {
+    margin-right: 0;
+}
+
+.section__info .basic-info .detail-info .movie-summary .sub-info strong em {
+    color: #ccc;
+}
+
+.section__info .basic-info .detail-info .movie-summary .sub-info strong em::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 9px;
+    background: #777;
+    margin-left: 10px;
+}
+
+.section__info .basic-info .detail-info .movie-summary .sub-info strong em:last-child:after {
+    display: none;
+}
+
+/* GRADE */
+.section__info .basic-info .detail-info .grade,
+.section__info .basic-info .detail-info .grade .score {
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.section__info .basic-info .detail-info .grade {
+    width: 80px;
+    height: 80px;
+    background: conic-gradient(#DA1300 83%, #0F1014 27%);
+}
+
+.section__info .basic-info .detail-info .grade .score {
+    width: 90%;
+    height: 90%;
+    background: #0F1014;
+    font-size: 25px;
+}
+
+.section__info .basic-info .btn--wrap {
+    width: 250px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+/* SUMMARY */
+.section__info .info__bottom {
+    margin-top: 30px;
+    padding: 0 30px;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+
+.section__info .bottom--title {
+    font-size: 1.5rem;
+    line-height: 2.5;
+}
+
+.section__info .summary {
+    color: #ccc;
+}
+
+.section__info .summary--title {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}

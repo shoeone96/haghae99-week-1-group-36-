@@ -15,7 +15,7 @@
 
 .section .container {
     position: relative;
-    width: 1280px;
+    width: 1080px;
     margin: 0 auto;
 }
 
@@ -217,13 +217,14 @@ header.section .log-in a {
     display: block;
 }
 
-.section__content .movie-info .btn--wrap {
+/* INDEX, DETAIL COMMON STYLE */
+.btn--wrap {
     height: 40px;
     display: flex;
     justify-content: space-between;
 }
 
-.section__content .movie-info .btn--wrap .btn--like {
+.btn--wrap .btn--like {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -234,13 +235,14 @@ header.section .log-in a {
     box-sizing: border-box;
 }
 
-.section__content .movie-info .btn--wrap .btn--like img {
+.btn--wrap .btn--like img {
     width: 24px;
     margin-right: 8px;
 }
 
-.section__content .movie-info .btn--wrap .btn--ticketing {
-    flex: .55;
+.btn--wrap .btn--ticketing {
+    /* flex: .55; */
+    flex: 1;
     height: 100%;
     border-radius: 5px;
     background: #DA1300;
