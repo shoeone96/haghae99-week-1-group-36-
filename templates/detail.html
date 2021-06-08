@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +13,8 @@
 
     <!-- FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
@@ -27,62 +29,63 @@
     <!-- CLASSLIST -->
     <link rel="stylesheet" href="../static/css/classlist.css">
 </head>
+
 <body>
-<div class="body__container">
+    <div class="body__container">
 
-    <!-- HEADER -->
-    <header class="section">
-        <div class="container">
+        <!-- HEADER -->
+        <header class="section">
+            <div class="container">
 
-            <h1 class="logo vendor-translate">
-                <a href="/">CINEMA 99</a>
-            </h1>
+                <h1 class="logo vendor-translate">
+                    <a href="/">CINEMA 99</a>
+                </h1>
 
-            <div class="log-in">
-                <button class="btn btn--log-in">
-                    <a href="/login">로그인</a>
-                </button>
+                <div class="log-in">
+                    <button class="btn btn--log-in">
+                        <a href="/login">로그인</a>
+                    </button>
+                </div>
+
             </div>
+        </header>
 
-        </div>
-    </header>
+        <!-- INFO -->
+        <section class="section section__info">
+            <div class="container">
 
-    <!-- INFO -->
-    <section class="section section__info">
-        <div class="container">
+                <div class="info__top">
+                    <img src={{ detail_info.img }} class="poster" alt={{ detail_info.title }}>
 
-            <div class="info__top">
-                <img src={{ detail_info.img }} class="poster" alt={{ detail_info.title }}>
+                    <div class="basic-info">
+                        <h2 class="info__title">
+                            {{ detail_info.title }}
+                        </h2>
 
-                <div class="basic-info">
-                    <h2 class="info__title">
-                        {{ detail_info.title }}
-                    </h2>
-
-                    {% if detail_info.opening_date %}
+                        {% if detail_info.opening_date %}
                         <p class="opening-date">
                             {{ detail_info.opening_date }}
                         </p>
-                    {% endif %}
+                        {% endif %}
 
-                    <div class="detail-info">
-                        <ul class="movie-summary">
-                            {% if detail_info.genre %}
+                        <div class="detail-info">
+                            <ul class="movie-summary">
+                                {% if detail_info.genre %}
                                 <li class="sub-info">
                                     <em>장르</em>
 
                                     <strong>
                                         <em>{{ detail_info.genre }}</em>
                                         {% if detail_info.show_time %}
-                                            <em class="time">
-                                                {{ detail_info.show_time }}
-                                            </em>
+                                        <em class="time">
+                                            {{ detail_info.show_time }}
+                                        </em>
                                         {% endif %}
                                     </strong>
                                 </li>
-                            {% endif %}
-                            
-                            {% if detail_info.director %}
+                                {% endif %}
+
+                                {% if detail_info.director %}
                                 <li class="sub-info">
                                     <em>감독</em>
 
@@ -90,9 +93,9 @@
                                         <em>{{ detail_info.director }}</em>
                                     </strong>
                                 </li>
-                            {% endif %}
-                            
-                            {% if detail_info.actor %}
+                                {% endif %}
+
+                                {% if detail_info.actor %}
                                 <li class="sub-info">
                                     <em>출연</em>
 
@@ -100,9 +103,9 @@
                                         <em>{{ detail_info.actor }}</em>
                                     </strong>
                                 </li>
-                            {% endif %}
-                            
-                            {% if detail_info.age %}
+                                {% endif %}
+
+                                {% if detail_info.age %}
                                 <li class="sub-info">
                                     <em>등급</em>
 
@@ -110,54 +113,122 @@
                                         <em>{{ detail_info.age }}</em>
                                     </strong>
                                 </li>
-                            {% endif %}
-                        </ul>
+                                {% endif %}
+                            </ul>
 
-                        <div class="grade">
-                            <strong class="score">8.3</strong>
+                            <div class="grade">
+                                <strong class="score">8.3</strong>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="btn--wrap">
-                        <!-- <button class="btn btn--like">
+                        <div class="btn--wrap">
+                            <!-- <button class="btn btn--like">
                             <img src="../static/img/like-active.png" alt="like">
                             <strong class="number-of-likes">106</strong>
                         </button> -->
-    
-                        <button class="btn btn--ticketing">
-                            {% if detail_info.reserve %}
+
+                            <button class="btn btn--ticketing">
+                                {% if detail_info.reserve %}
                                 <a target="_blank" href={{ detail_info.reserve }}>예매하기</a>
-                            {% else %}
+                                {% else %}
                                 <a target="_blank" href={{ detail_info.link }} class="naver-movie">네이버 영화</a>
-                            {% endif %}
-                        </button>
+                                {% endif %}
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {% if detail_info.summary_tit or detail_info.summary_des %}
+                {% if detail_info.summary_tit or detail_info.summary_des %}
                 <div class="info__bottom">
                     <strong class="bottom--title">
                         시놉시스
                     </strong>
 
                     {% if detail_info.summary_tit %}
-                        <h3 class="summary summary--title">
-                            {{ detail_info.summary_tit }}
-                        </h3>
+                    <h3 class="summary summary--title">
+                        {{ detail_info.summary_tit }}
+                    </h3>
                     {% endif %}
-                    
+
                     {% if detail_info.summary_des %}
-                        <p class="summary summary--description">
-                            {{ detail_info.summary_des }}
-                        </p>
+                    <p class="summary summary--description">
+                        {{ detail_info.summary_des }}
+                    </p>
                     {% endif %}
                 </div>
-            {% endif %}
+                {% endif %}
 
-        </div>
-    </section>
+            </div>
+        </section>
 
-</div>
+        <!-- REVIEW -->
+        <section class="section section__review">
+            <div class="container">
+
+                <ul class="review-wrap">
+                    <li class="review">
+                        <div class="grade">
+                            <strong class="score">8</strong>
+                        </div>
+
+                        <div class="review-description">
+                            <strong class="user-id">hong</strong>
+
+                            <p class="user-comment">
+                                재미있어요
+                            </p>
+
+                            <div class="review-bottom">
+                                <p class="comment-date">
+                                    2021.06.08
+                                </p>
+
+                                <div class="edit-review">
+                                    <button class="btn btn--edit">수정</button>
+                                    <button class="btn btn--delete">삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="write-review">
+                    <div class="score-wrap">
+                        <strong class="score-info">1점</strong>
+
+                        <div class="score-star">
+                            <button class="btn btn--star on">1점</button>
+                            <button class="btn btn--star">2점</button>
+                            <button class="btn btn--star">3점</button>
+                            <button class="btn btn--star">4점</button>
+                            <button class="btn btn--star">5점</button>
+                            <button class="btn btn--star">6점</button>
+                            <button class="btn btn--star">7점</button>
+                            <button class="btn btn--star">8점</button>
+                            <button class="btn btn--star">9점</button>
+                            <button class="btn btn--star">10점</button>
+                        </div>
+                    </div>
+
+                    <div class="enter-area">
+                        <textarea id="input-review" class="input--text" placeholder="리뷰를 작성해주세요. 최대 220자까지 작성할 수 있습니다."></textarea>
+
+                        <span class="length-info">
+                            <strong class="length">0</strong>
+                            /
+                            <em class="max-length">220</em>
+                        </span>
+                    </div>
+
+                    <button type="submit" class="btn btn--submit">리뷰 작성</button>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script src="../static/js/review.js"></script>
 </body>
+
 </html>
