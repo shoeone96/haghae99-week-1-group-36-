@@ -182,7 +182,7 @@
                 success: function (response) {
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token'], {path: '/'});
-                        window.location.replace("/")
+                        window.location.replace("/");
                     } else {
                         alert(response['msg'])
                     }
@@ -210,19 +210,19 @@
     <section class="section section__log-in" id="login_box">
         <div class="container">
 
-            <form action="" method="post" id="form--log-in">
+            <div id="form--log-in">
                 <div>
-                    <input type="text" class="input--text" name="login_id_give" id="user-id" placeholder="아이디">
+                    <input type="text" class="input--text" id="user-id" placeholder="아이디">
                     <p class="input-state" id="help-id-login"></p>
                 </div>
                 <div>
-                    <input type="password" class="input--text" name="login_pw_give" id="user-pwd" placeholder="비밀번호">
+                    <input type="password" class="input--text" id="user-pwd" placeholder="비밀번호">
                     <p class="input-state" id="help-password-login"></p>
                 </div>
                 <p class="input-state danger"></p>
 
-                <button type="submit" class="btn btn--log-in">로그인</button>
-            </form>
+                <button class="btn btn--log-in" onclick="sign_in()">로그인</button>
+            </div>
 
             <button class="btn btn--register" onclick="register_cancel()">회원가입</button>
 
