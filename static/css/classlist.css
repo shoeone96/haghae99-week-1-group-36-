@@ -9,3 +9,8 @@
 .complete {
     color: #48c774 !important;
 }
+
+.selected {
+    background: #F9FBFB;
+    color: #0F1014;
+}

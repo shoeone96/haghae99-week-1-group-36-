@@ -34,12 +34,12 @@
         <div class="container">
 
             <h1 class="logo vendor-translate">
-                <a href="#">CINEMA 99</a>
+                <a href="/">CINEMA 99</a>
             </h1>
 
             <div class="log-in">
                 <button class="btn btn--log-in">
-                    <a href="#">로그인</a>
+                    <a href="/login">로그인</a>
                 </button>
             </div>
 
@@ -49,12 +49,15 @@
     <!-- CONTENT -->
     <section class="section section__content">
         <div class="container">
-
+            
+            {% for movie in movie_list %}
             <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
+                <a href={{ movie.link }} class="info__link">
+                    <p class="rank">{{ movie.id }}</p>
+                    <img src={{ movie.img }} alt={{ movie.title }}>
+                    {% if movie.age %}
+                        <span class="viewing-age">{{ movie.age }}</span>
+                    {% endif %}
 
                     <div class="hidden-box">
                         <button class="btn btn--detail vendor-translate">
@@ -73,239 +76,35 @@
                         <strong class="number-of-likes">106</strong>
                     </button> -->
 
+                    
                     <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
+                        {% if movie.reserve %}
+                            <a target="_blank" href={{ movie.reserve }}>예매하기</a>
+                        {% else %}
+                            <a href={{ movie.link }}>평점 / 후기 보기</a>
+                        {% endif %}
                     </button>
+                    
                 </div>
             </div>
-            <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
-
-                    <div class="hidden-box">
-                        <button class="btn btn--detail vendor-translate">
-                            평점 / 후기 보기
-                        </button>
-
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
-                    </button>
-                </div>
-            </div>
-            <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
-
-                    <div class="hidden-box">
-                        <button class="btn btn--detail vendor-translate">
-                            평점 / 후기 보기
-                        </button>
-
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
-                    </button>
-                </div>
-            </div>
-            <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
-
-                    <div class="hidden-box">
-                        <button class="btn btn--detail vendor-translate">
-                            평점 / 후기 보기
-                        </button>
-
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
-                    </button>
-                </div>
-            </div>
-            <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
-
-                    <div class="hidden-box">
-                        <button class="btn btn--detail vendor-translate">
-                            평점 / 후기 보기
-                        </button>
-
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
-                    </button>
-                </div>
-            </div>
-            <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
-
-                    <div class="hidden-box">
-                        <button class="btn btn--detail vendor-translate">
-                            평점 / 후기 보기
-                        </button>
-
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
-                    </button>
-                </div>
-            </div>
-            <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
-
-                    <div class="hidden-box">
-                        <button class="btn btn--detail vendor-translate">
-                            평점 / 후기 보기
-                        </button>
-
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
-                    </button>
-                </div>
-            </div>
-            <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
-
-                    <div class="hidden-box">
-                        <button class="btn btn--detail vendor-translate">
-                            평점 / 후기 보기
-                        </button>
-
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
-                    </button>
-                </div>
-            </div>
-            <div class="movie-info">
-                <a href="#" class="info__link">
-                    <p class="rank">1</p>
-                    <img src="https://movie-phinf.pstatic.net/20210126_174/1611638248803840HH_JPEG/movie_image.jpg" alt="movie">
-                    <span class="viewing-age">15세 관람가</span>
-
-                    <div class="hidden-box">
-                        <button class="btn btn--detail vendor-translate">
-                            평점 / 후기 보기
-                        </button>
-
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    <button class="btn btn--ticketing">
-                        <a href="#">예매하기</a>
-                    </button>
-                </div>
-            </div>
+            {% endfor %}
 
         </div>
     </section>
 
+    <!-- PAGE GENERATOR -->
+    <nav class="section generator">
+        <ul class="page-wrap">
+            {% for i in range(page_count) %}
+            <li class="page-list">
+                <a href="/page" class="page-link">{{ i + 1 }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+
 </div>
+
+<script src="../static/js/page-generator.js"></script>
 </body>
 </html>

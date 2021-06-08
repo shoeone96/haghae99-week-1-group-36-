@@ -34,12 +34,12 @@ def get_movie_info():
         [show_time] = list(filter(lambda x: re.search('분$', x), summary))
         [opening_date] = list(filter(lambda x: re.search('개봉$', x), summary))
 
-        movie_info['id'] = idx
+        movie_info['id'] = idx + 1
         movie_info['title'] = title.text
         movie_info['img'] = movie.select_one('div > a > img')['src'].split('?')[0]
         movie_info['link'] = title['href']
 
-        if reserve: movie_info['reserve'] = reserve['href']
+        if reserve: movie_info['reserve'] = 'https://movie.naver.com' + reserve['href']
         if age: movie_info['age'] = age.text
 
         if genre: movie_info['genre'] = no_space(genre.text)
@@ -50,3 +50,5 @@ def get_movie_info():
         if actor: movie_info['actor'] = no_space(actor.text)
 
         movie_list.append(movie_info)
+
+    return movie_list
