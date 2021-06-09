@@ -1,8 +1,7 @@
 (function() {
     const infoLink = document.querySelectorAll('.info__link');
-    const rank = document.querySelectorAll('.rank');
 
-    Array.prototype.forEach.call(infoLink, (info, idx) => {
-        info.href = `/detail?code=${parseInt(rank[idx].textContent) - 1}`;
+    Array.prototype.forEach.call(infoLink, info => {
+        info.href = `/detail?code=${parseInt(info.id) - 1}`;
     });
 })();

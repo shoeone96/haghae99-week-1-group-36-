@@ -11,6 +11,8 @@
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <!-- FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
@@ -52,7 +54,7 @@
 
         <!-- INFO -->
         <section class="section section__info">
-            <div class="container">
+            <div class="container" id={{ detail_info.id }}>
 
                 <div class="info__top">
                     <img src={{ detail_info.img }} class="poster" alt={{ detail_info.title }}>
@@ -196,104 +198,7 @@
                     <button type="submit" class="btn btn--submit">리뷰 작성</button>
                 </div>
 
-                <ul class="review-wrap">
-                    <li class="review">
-                        <div class="grade">
-                            <strong class="score">8</strong>
-                        </div>
-
-                        <div class="review-description">
-                            <strong class="user-id">hong</strong>
-
-                            <p class="user-comment">
-                                재미있어요
-                            </p>
-
-                            <div class="review-bottom">
-                                <p class="comment-date">
-                                    2021.06.08
-                                </p>
-
-                                <div class="edit-review">
-                                    <button class="btn btn--edit">수정</button>
-                                    <button class="btn btn--delete">삭제</button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="review">
-                        <div class="grade">
-                            <strong class="score">8</strong>
-                        </div>
-
-                        <div class="review-description">
-                            <strong class="user-id">hong</strong>
-
-                            <p class="user-comment">
-                                재미있어요
-                            </p>
-
-                            <div class="review-bottom">
-                                <p class="comment-date">
-                                    2021.06.08
-                                </p>
-
-                                <div class="edit-review">
-                                    <button class="btn btn--edit">수정</button>
-                                    <button class="btn btn--delete">삭제</button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="review">
-                        <div class="grade">
-                            <strong class="score">8</strong>
-                        </div>
-
-                        <div class="review-description">
-                            <strong class="user-id">hong</strong>
-
-                            <p class="user-comment">
-                                재미있어요
-                            </p>
-
-                            <div class="review-bottom">
-                                <p class="comment-date">
-                                    2021.06.08
-                                </p>
-
-                                <div class="edit-review">
-                                    <button class="btn btn--edit">수정</button>
-                                    <button class="btn btn--delete">삭제</button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="review">
-                        <div class="grade">
-                            <strong class="score">8</strong>
-                        </div>
-
-                        <div class="review-description">
-                            <strong class="user-id">hong</strong>
-
-                            <p class="user-comment">
-                                재미있어요
-                            </p>
-
-                            <div class="review-bottom">
-                                <p class="comment-date">
-                                    2021.06.08
-                                </p>
-
-                                <div class="edit-review">
-                                    <button class="btn btn--edit">수정</button>
-                                    <button class="btn btn--delete">삭제</button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <ul class="review-wrap"></ul>
 
                 <button class="btn btn--more">
                     <span>더 보기</span>
@@ -304,6 +209,7 @@
 
     </div>
 
+    <script src="../static/js/index.js"></script>
     <script src="../static/js/review.js"></script>
 </body>
 

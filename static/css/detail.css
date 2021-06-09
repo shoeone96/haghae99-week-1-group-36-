@@ -13,15 +13,6 @@
     display: flex;
 }
 
-.grade {
-    background: conic-gradient(#DA1300 83%, #30333f 27%);
-}
-
-.grade .score {
-    width: 90%;
-    height: 90%;
-}
-
 /* INFO */
 .section__info .container {
     padding: 50px 0;
@@ -107,6 +98,8 @@
 .section__info .basic-info .detail-info .grade .score {
     font-size: 25px;
     background: #0F1014;
+    width: 90%;
+    height: 90%;
 }
 
 .section__info .basic-info .btn--wrap {
@@ -248,6 +241,8 @@
 }
 
 .section__review .review .grade .score {
+    width: 80%;
+    height: 80%;
     background: #F9FBFB;
 }
 
