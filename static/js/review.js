@@ -7,6 +7,10 @@
     const reviewLength = document.querySelector('.length');
     const btnSubmit = document.querySelector('.btn--submit');
     const reviewWrap = document.querySelector('.review-wrap');
+    const btnMore = document.querySelector('.btn--more');
+
+    // MUTABLE VARIABLE
+    let reviews;
 
     // FUNCTION
     const chooseScore = function(score) {
@@ -27,8 +31,16 @@
         reviewLength.textContent = length;
     }
 
-    const showComments = function(contents) {
-        // const id = contents.id;
+    const modifyReview = function(id, delElem) {
+        request.post('/review/edit', { id })
+        .then(response => response.json());
+
+        reviewWrap.removeChild(delElem);
+    }
+
+    const showComments = function(contents, id) {
+        const idx = id;
+        // const username = contents.username;
         const score = contents.grade;
         const comment = contents.comment;
         const date = contents.date;
@@ -44,7 +56,9 @@
         const edit = document.createElement('div');
         const btnEdit = document.createElement('button');
         const btnDel = document.createElement('button');
+        const editLink = document.createElement('a');
 
+        review.id = idx;
         review.className = 'review';
         grade.className = 'grade';
         scoreDom.className = 'score';
@@ -58,16 +72,18 @@
         btnDel.className = 'btn--delete';
         btnEdit.classList.add('btn');
         btnDel.classList.add('btn');
+        editLink.href = '#review-section';
 
         grade.style.background = 'conic-gradient(#DA1300 0% ' + score * 10 + '%, #30333f ' + score * 10 + '% 100%)';
         scoreDom.textContent = score;
-        // userId.textContent = id;
+        // userId.textContent = usernamew;
         userComment.textContent = comment;
         dateDom.textContent = date;
-        btnEdit.textContent = '수정';
+        editLink.textContent = '수정';
         btnDel.textContent = '삭제';
 
         grade.appendChild(scoreDom);
+        btnEdit.appendChild(editLink);
         edit.appendChild(btnEdit);
         edit.appendChild(btnDel);
         bottom.appendChild(dateDom);
@@ -79,7 +95,31 @@
         review.appendChild(grade);
         review.appendChild(description);
 
+        // btnEdit.addEventListener('click', () => {
+        //     modifyReview(id);
+        // });
+        btnDel.addEventListener('click', function() {
+            modifyReview(id, this.closest('.review'));
+        });
+
         return review;
+    }
+
+    const showReview = function() {
+        const reviewList = reviews.length < 5 ? reviews.splice(0, reviews.length) : reviews.splice(0, 5);
+
+        reviewList.forEach((review, i) => {
+            if (i >= 5) return;
+
+            const comment = showComments(review, review.id);
+            reviewWrap.append(comment);
+        });
+    }
+
+    const showMore = function() {
+        showReview();
+        
+        if (!reviews.length) btnMore.classList.add('hide');
     }
 
     const registerReview = function() {
@@ -104,8 +144,9 @@
         }
 
         request.post('/review/add', data)
-        .then(() => {
-            const review = showComments(data);
+        .then(response => response.json())
+        .then(json => {
+            const review = showComments(data, json.id);
             reviewWrap.insertBefore(review, reviewWrap.firstChild);
         });
 
@@ -121,18 +162,11 @@
         request.get(`/review?id=${code}`)
             .then(response => response.json())
             .then(json => {
-                const reviews = json.review_list.reverse();
+                reviews = json.review_list.reverse();
 
-                if (json.review_list.length <= 5) {
-                    const showMore = document.querySelector('.btn--more');
-                    showMore.classList.add('hide');
-                }
+                if (json.review_list.length <= 5) btnMore.classList.add('hide');
 
-                reviews.forEach((review, i) => {
-                    if (i >= 5) return;
-                    const comment = showComments(review);
-                    reviewWrap.append(comment);
-                });
+                showReview(reviews);
             });
     }
 
@@ -148,4 +182,5 @@
 
     inputReview.addEventListener('input', findTheLengthOfAString);
     btnSubmit.addEventListener('click', registerReview);
+    btnMore.addEventListener('click', showMore);
 })();

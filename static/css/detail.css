@@ -16,7 +16,6 @@
 /* INFO */
 .section__info .container {
     padding: 50px 0;
-    margin-bottom: 50px;
     border-bottom: 1px solid rgba(255, 255, 255, .3);
     word-break: keep-all;
 }
@@ -137,6 +136,10 @@
 }
 
 /* REVIEW */
+.section__review {
+    padding-top: 50px;
+}
+
 .section__review .container {
     padding-bottom: 100px;
 }
@@ -267,7 +270,8 @@
     font-size: 14px;
 }
 
-.section__review .review .review-description .btn {
+.section__review .review .review-description .btn,
+.section__review .review .review-description .btn a {
     color: #999;
     font-size: 14px;
 }

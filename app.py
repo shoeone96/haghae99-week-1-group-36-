@@ -106,15 +106,25 @@ def show_review():
 @app.route('/review/add', methods=['POST'])
 def get_review():
     receive = request.get_json()
+    review_list = list(db.usersreview.find({}, {'_id':False}))
+    id = 0 if not review_list else int(max(review_list, key=lambda x: x['id'])['id']) + 1
 
     doc = {
         "code": receive['code'],
         "grade": receive['grade'],
         "comment": receive['comment'],
-        "date": receive['date']
+        "date": receive['date'],
+        "id": id
     }
 
     db.usersreview.insert_one(doc)
+
+    return jsonify({'result': 'success', 'id': doc['id']})
+
+@app.route('/review/edit', methods=['POST'])
+def edit_review():
+    receive = request.get_json()
+    db.usersreview.delete_one({'id':int(receive['id'])})
 
     return jsonify({'result': 'success'})
 
