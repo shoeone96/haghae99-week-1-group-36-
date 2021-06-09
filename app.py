@@ -1,3 +1,4 @@
+import re
 from pymongo import MongoClient
 import jwt
 import datetime
@@ -5,7 +6,7 @@ import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
-from crawling import get_movie_info, get_movie_summary
+from crawling import movies, get_movie_summary
 import os
 from math import ceil
 
@@ -19,12 +20,11 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('localhost', 27017)
 db = client.dbsparta
 
-movie_list = get_movie_info()
-page_count = ceil(len(movie_list) / 20)
-
 @app.route('/')
 def home():
-    return render_template('index.html', movie_list=movie_list[:20], page_count=page_count)
+    page_count = ceil(len(movies) / 20)
+
+    return render_template('index.html', movie_list=movies[:20], page_count=page_count)
 
 @app.route('/favicon.ico')
 def favicon():
@@ -54,9 +54,10 @@ def sign_up():
 
 @app.route('/page', methods=['GET'])
 def page():
+    page_count = ceil(len(movies) / 20)
     order = int(request.args.get('order'))
 
-    return render_template('index.html', movie_list=movie_list[20 * order:20 * (order + 1)], page_count=page_count)
+    return render_template('index.html', movie_list=movies[20 * order:20 * (order + 1)], page_count=page_count)
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
@@ -85,6 +86,28 @@ def detail():
     detail_info = get_movie_summary(code)
 
     return render_template('detail.html', detail_info=detail_info)
+
+@app.route('/review', methods=['GET'])
+def show_review():
+    code = int(request.args.get('id'))
+    review_list = list(db.usersreview.find({'code':code}, {'_id':False}))
+
+    return jsonify({'review_list': review_list })
+
+@app.route('/review/add', methods=['POST'])
+def get_review():
+    receive = request.get_json()
+
+    doc = {
+        "code": receive['code'],
+        "grade": receive['grade'],
+        "comment": receive['comment'],
+        "date": receive['date']
+    }
+
+    db.usersreview.insert_one(doc)
+
+    return jsonify({'result': 'success'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

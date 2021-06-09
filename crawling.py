@@ -73,6 +73,8 @@ def get_movie_summary(code):
     detail_info['img'] = target['img']
     detail_info['link'] = target['link']
 
+    detail_info['id'] = target['link'].split('?')[1].split('=')[1]
+
     if "opening_date" in target: detail_info['opening_date'] = target['opening_date']
     if "genre" in target: detail_info['genre'] = target['genre']
     if "show_time" in target: detail_info['show_time'] = target['show_time']
