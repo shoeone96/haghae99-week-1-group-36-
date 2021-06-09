@@ -54,7 +54,6 @@
         const bottom = document.createElement('div');
         const dateDom = document.createElement('p');
         const edit = document.createElement('div');
-        const btnEdit = document.createElement('button');
         const btnDel = document.createElement('button');
         const editLink = document.createElement('a');
 
@@ -68,11 +67,8 @@
         bottom.className = 'review-bottom';
         dateDom.className = 'comment-date';
         edit.className = 'edit-review';
-        btnEdit.className = 'btn--edit';
         btnDel.className = 'btn--delete';
-        btnEdit.classList.add('btn');
         btnDel.classList.add('btn');
-        editLink.href = '#review-section';
 
         grade.style.background = 'conic-gradient(#DA1300 0% ' + score * 10 + '%, #30333f ' + score * 10 + '% 100%)';
         scoreDom.textContent = score;
@@ -83,8 +79,6 @@
         btnDel.textContent = '삭제';
 
         grade.appendChild(scoreDom);
-        btnEdit.appendChild(editLink);
-        edit.appendChild(btnEdit);
         edit.appendChild(btnDel);
         bottom.appendChild(dateDom);
         bottom.appendChild(edit);
@@ -95,9 +89,6 @@
         review.appendChild(grade);
         review.appendChild(description);
 
-        // btnEdit.addEventListener('click', () => {
-        //     modifyReview(id);
-        // });
         btnDel.addEventListener('click', function() {
             modifyReview(id, this.closest('.review'));
         });

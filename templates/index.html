@@ -53,8 +53,8 @@
             {% for movie in movie_list %}
             <div class="movie-info">
                 <a href="/detail" class="info__link" id={{ movie.id }}>
-                    {% if movie.id <= 10 %}
-                        <p class="rank">{{ movie.id }}</p>
+                    {% if movie.code <= 10 %}
+                        <p class="rank">{{ movie.code }}</p>
                     {% endif %}
                     <img src={{ movie.img }} alt={{ movie.title }}>
                     {% if movie.age %}
