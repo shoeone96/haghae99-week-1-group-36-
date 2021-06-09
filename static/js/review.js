@@ -4,6 +4,7 @@
     const scoreInfo = document.querySelector('.score-info');
     const inputReview = document.getElementById('input-review');
     const reviewLength = document.querySelector('.length');
+    const btnSubmit = document.querySelector('.btn--submit');
 
     // FUNCTION
     const chooseScore = function(score) {
@@ -22,6 +23,16 @@
         }
 
         reviewLength.textContent = length;
+    }
+
+    const registerReview = function(grade, comment) {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('POST', '/review_receive');
+
+        xhr.setRequestHeader('content-type', 'application/json');
+
+        xhr.send(JSON.stringify({ grade_give: grade, comment_give: comment }));
     }
 
     // EVENT HANDLER
