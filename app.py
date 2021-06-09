@@ -5,7 +5,7 @@ import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
-from crawling import get_movie_info, get_movie_summary
+from crawling import get_movie_info
 import os
 from math import ceil
 
@@ -24,7 +24,8 @@ page_count = ceil(len(movie_list) / 20)
 
 @app.route('/')
 def home():
-    return render_template('index.html', movie_list=movie_list[:20], page_count=page_count)
+    return render_template('index.html', movie_list=movie_list[:20], page_count=page_count, user_info=user_info)
+
 
 @app.route('/favicon.ico')
 def favicon():
@@ -32,7 +33,8 @@ def favicon():
 
 @app.route('/login')
 def login():
-    return render_template('log-in.html')
+    msg = request.args.get("msg")
+    return render_template('log-in.html', msg=msg)
 
 @app.route('/login/check_dup', methods=['POST'])
 def check_dup():
@@ -55,17 +57,17 @@ def sign_up():
 @app.route('/page', methods=['GET'])
 def page():
     order = int(request.args.get('order'))
-
     return render_template('index.html', movie_list=movie_list[20 * order:20 * (order + 1)], page_count=page_count)
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
+
     # 로그인
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+    result = db.userscinema.find_one({'username': username_receive, 'password': pw_hash})
 
     if result is not None:
         payload = {
@@ -78,13 +80,6 @@ def sign_in():
     # 찾지 못하면
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
-
-@app.route('/detail', methods=['GET'])
-def detail():
-    code = int(request.args.get('code'))
-    detail_info = get_movie_summary(code)
-
-    return render_template('detail.html', detail_info=detail_info)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
