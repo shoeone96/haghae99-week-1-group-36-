@@ -1,4 +1,3 @@
-import re
 from pymongo import MongoClient
 import jwt
 import datetime
@@ -27,8 +26,9 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        username = db.users.find_one({"id":payload['id']})
-        return render_template('index.html',  movie_list=movies[:20], page_count=page_count, username=username['id'], user_info=user_info)
+        username = db.userscinema.find_one({"username":payload['id']})
+
+        return render_template('index.html',  movie_list=movies[:20], page_count=page_count, username=username['username'])
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -46,7 +46,7 @@ def login():
 @app.route('/login/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
-    exists = bool(db.users.find_one({"username": username_receive}))
+    exists = bool(db.userscinema.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
 @app.route('/login/save', methods=['POST'])

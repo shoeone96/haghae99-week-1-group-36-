@@ -121,12 +121,14 @@
         request.get(`/review?id=${code}`)
             .then(response => response.json())
             .then(json => {
+                const reviews = json.review_list.reverse();
+
                 if (json.review_list.length <= 5) {
                     const showMore = document.querySelector('.btn--more');
                     showMore.classList.add('hide');
                 }
 
-                json.review_list.forEach((review, i) => {
+                reviews.forEach((review, i) => {
                     if (i >= 5) return;
                     const comment = showComments(review);
                     reviewWrap.append(comment);
