@@ -26,6 +26,11 @@
     }
 
     const registerReview = function(grade, comment) {
+        if (!comment) {
+            alert('내용을 작성해주세요.');
+            return;
+        }
+
         const xhr = new XMLHttpRequest();
 
         xhr.open('POST', '/review_receive');
@@ -33,6 +38,16 @@
         xhr.setRequestHeader('content-type', 'application/json');
 
         xhr.send(JSON.stringify({ grade_give: grade, comment_give: comment }));
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+            if (xhr.status === 200) {
+                console.log(JSON.parse(xhr.response));
+            } else {
+                console.error('Error', xhr.status, xhr.statusText);
+            }
+        }
     }
 
     // EVENT HANDLER
