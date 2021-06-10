@@ -127,7 +127,7 @@
                 $("#register-confirm").focus()
                 return;
             } else if (password2 != password) {
-                $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
+                $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe")
                 $("#register-confirm").focus()
                 return;
             } else {
@@ -195,7 +195,7 @@
         <div class="container">
 
             <h1 class="logo vendor-translate">
-                <a href="#">CINEMA 99</a>
+                <a href="/">CINEMA 99</a>
             </h1>
 
         </div>
@@ -251,8 +251,7 @@
 
             <div class="input-area">
                 <input type="password" class="input--text" id="register-confirm" placeholder="비밀번호 재입력">
-                <p class="input-state help is-hidden" id="help-password2">
-                    비밀번호를 다시 입력해주세요.
+                <p class="input-state help" id="help-password2">
                 </p>
             </div>
 
