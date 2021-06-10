@@ -26,20 +26,14 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        username = db.userscinema.find_one({"username": payload['id']})
+        status = (0 != payload["exp"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
 
-<< << << < HEAD
-username = db.users.find_one({"id": payload['id']})
-return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username)
-== == == =
-username = db.userscinema.find_one({"username": payload['id']})
-
-return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username['username'])
->> >> >> > 7
-aef5069339bedbb127cb603ba6d47b8f176b53a
-except jwt.ExpiredSignatureError:
-return render_template('index.html', movie_list=movies[:20], page_count=page_count)
-except jwt.exceptions.DecodeError:
-return render_template('index.html', movie_list=movies[:20], page_count=page_count)
+        return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username['username'], status=status)
+    except jwt.ExpiredSignatureError:
+        return render_template('index.html', movie_list=movies[:20], page_count=page_count)
+    except jwt.exceptions.DecodeError:
+        return render_template('index.html', movie_list=movies[:20], page_count=page_count)
 
 
 @app.route('/favicon.ico')
@@ -124,7 +118,6 @@ def show_review():
 
 @app.route('/review/add', methods=['POST'])
 def get_review():
-
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
