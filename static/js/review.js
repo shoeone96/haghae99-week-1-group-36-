@@ -12,6 +12,7 @@
 
     // MUTABLE VARIABLE
     let reviews;
+    let userSignInInfo;
 
     // FUNCTION
     const gradeDisplay = function(
@@ -48,12 +49,13 @@
             gradeDom.querySelector('.score').textContent = json.total_grade;
             
             gradeDisplay(json.total_grade);
+            showReview();
         });
 
         reviewWrap.removeChild(delElem);
     }
 
-    const showComments = function(username, contents, id, token=username) {
+    const showComments = function(username, contents, id) {
         const idx = id;
         const score = contents.grade;
         const comment = contents.comment;
@@ -87,7 +89,7 @@
         grade.appendChild(scoreDom);
         bottom.appendChild(dateDom);
 
-        if (username === token) {
+        if (username === userSignInInfo) {
             const btnDel = document.createElement('button');
 
             btnDel.className = 'btn--delete';
@@ -111,21 +113,16 @@
         return review;
     }
 
-    const showReview = function(token) {
-        const reviewList = reviews.length < 5 ? reviews.splice(0, reviews.length) : reviews.splice(0, 5);
+    const showReview = function() {
+        if (!reviews.length) {
+            btnMore.classList.add('hide');
+            return;
+        }
 
-        reviewList.forEach((review, i) => {
-            if (i >= 5) return;
+        const review = reviews.shift();
+        const comment = showComments(review.user_id, review, review.id);
 
-            const comment = showComments(review.user_id, review, review.id, token);
-            reviewWrap.append(comment);
-        });
-    }
-
-    const showMore = function() {
-        showReview();
-        
-        if (!reviews.length) btnMore.classList.add('hide');
+        reviewWrap.append(comment);
     }
 
     const registerReview = function() {
@@ -152,7 +149,7 @@
         request.post('/review/add', data)
         .then(response => response.json())
         .then(json => {
-            const review = showComments(json.user_id, data, json.id);
+            const review = showComments(json.user_id, data, json.id, json.user_id);
 
             reviewWrap.insertBefore(review, reviewWrap.firstChild);
             gradeDom.querySelector('.score').textContent = json.total_grade;
@@ -163,7 +160,7 @@
 
             if (is_sign_in) location.href = 'login';
 
-            console.log(err);
+            console.error(err);
         });
 
         Array.prototype.forEach.call(stars, star => {
@@ -179,10 +176,13 @@
             .then(response => response.json())
             .then(json => {
                 reviews = json.review_list.reverse();
+                userSignInInfo = json.username;
 
                 if (json.review_list.length <= 5) btnMore.classList.add('hide');
-                
-                showReview(json.username);
+
+                for (let i = 0; i < 5; i++) {
+                    showReview();
+                }
             });
     }
 
@@ -196,7 +196,11 @@
 
     inputReview.addEventListener('input', findTheLengthOfAString);
     btnSubmit.addEventListener('click', registerReview);
-    btnMore.addEventListener('click', showMore);
+    btnMore.addEventListener('click', () => {
+        for (let i = 0; i < 5; i++) {
+            showReview();
+        }
+    });
 
     // FUNCTION EXCUTION
     getReview();
