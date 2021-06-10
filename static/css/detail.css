@@ -260,7 +260,10 @@
 }
 
 .section__review .review .review-description .user-comment {
+    width: 840px;
     margin: 20px 0 30px;
+    white-space: pre-line;
+    word-break:break-all;
 }
 
 .section__review .review .review-description .review-bottom {
