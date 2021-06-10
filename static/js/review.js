@@ -40,21 +40,6 @@
         reviewLength.textContent = length;
     }
 
-    const modifyReview = function(id, delElem) {
-        const grade = parseInt(delElem.querySelector('.score').textContent)
-
-        request.post('/review/edit', { id, code, grade })
-        .then(response => response.json())
-        .then(json => {
-            gradeDom.querySelector('.score').textContent = json.total_grade;
-            
-            gradeDisplay(json.total_grade);
-            showReview();
-        });
-
-        reviewWrap.removeChild(delElem);
-    }
-
     const showComments = function(username, contents, id) {
         const idx = id;
         const score = contents.grade;
@@ -126,6 +111,21 @@
         reviewWrap.append(comment);
     }
 
+    const getReview = function() {
+        request.get(`/review?id=${code}`)
+            .then(response => response.json())
+            .then(json => {
+                reviews = json.review_list.reverse();
+                userSignInInfo = json.username;
+
+                if (json.review_list.length <= 5) btnMore.classList.add('hide');
+
+                for (let i = 0; i < 5; i++) {
+                    showReview();
+                }
+            });
+    }
+
     const registerReview = function() {
         const grade = parseInt(scoreInfo.textContent);
         const comment = inputReview.value;
@@ -172,19 +172,18 @@
         reviewLength.textContent = '0';
     }
 
-    const getReview = function() {
-        request.get(`/review?id=${code}`)
-            .then(response => response.json())
-            .then(json => {
-                reviews = json.review_list.reverse();
-                userSignInInfo = json.username;
+    const modifyReview = function(id, delElem) {
+        const grade = parseInt(delElem.querySelector('.score').textContent)
 
-                if (json.review_list.length <= 5) btnMore.classList.add('hide');
-
-                for (let i = 0; i < 5; i++) {
-                    showReview();
-                }
-            });
+        request.post('/review/edit', { id, code, grade })
+        .then(response => response.json())
+        .then(json => {
+            gradeDom.querySelector('.score').textContent = json.total_grade;
+            
+            gradeDisplay(json.total_grade);
+            showReview();
+            reviewWrap.removeChild(delElem);
+        });
     }
 
     // EVENT HANDLER
