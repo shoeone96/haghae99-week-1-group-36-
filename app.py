@@ -107,10 +107,17 @@ def detail():
 
 @app.route('/review', methods=['GET'])
 def show_review():
+    token_receive = request.cookies.get('mytoken')
     code = int(request.args.get('id'))
     review_list = list(db.usersreview.find({'code': code}, {'_id': False}))
 
-    return jsonify({'review_list': review_list})
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.userscinema.find_one({"username": payload['id']})
+
+        return jsonify({'review_list': review_list, 'username': user_info['username']})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return jsonify({'review_list': review_list, 'username': None})
 
 
 @app.route('/review/add', methods=['POST'])

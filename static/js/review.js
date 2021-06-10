@@ -53,7 +53,7 @@
         reviewWrap.removeChild(delElem);
     }
 
-    const showComments = function(username, contents, id) {
+    const showComments = function(username, contents, id, token=username) {
         const idx = id;
         const score = contents.grade;
         const comment = contents.comment;
@@ -67,7 +67,6 @@
         const userComment = document.createElement('p');
         const bottom = document.createElement('div');
         const dateDom = document.createElement('p');
-        const btnDel = document.createElement('button');
 
         review.id = idx;
         review.className = 'review';
@@ -78,19 +77,30 @@
         userComment.className = 'user-comment';
         bottom.className = 'review-bottom';
         dateDom.className = 'comment-date';
-        btnDel.className = 'btn--delete';
-        btnDel.classList.add('btn');
 
         gradeDisplay(score, grade);
         scoreDom.textContent = score;
         userId.textContent = username;
         userComment.textContent = comment;
         dateDom.textContent = date;
-        btnDel.textContent = '삭제';
 
         grade.appendChild(scoreDom);
         bottom.appendChild(dateDom);
-        bottom.appendChild(btnDel);
+
+        if (username === token) {
+            const btnDel = document.createElement('button');
+
+            btnDel.className = 'btn--delete';
+            btnDel.classList.add('btn');
+            btnDel.textContent = '삭제';
+
+            bottom.appendChild(btnDel);
+
+            btnDel.addEventListener('click', function() {
+                modifyReview(id, this.closest('.review'));
+            });
+        }
+
         description.appendChild(userId);
         description.appendChild(userComment);
         description.appendChild(bottom);
@@ -98,20 +108,16 @@
         review.appendChild(grade);
         review.appendChild(description);
 
-        btnDel.addEventListener('click', function() {
-            modifyReview(id, this.closest('.review'));
-        });
-
         return review;
     }
 
-    const showReview = function() {
+    const showReview = function(token) {
         const reviewList = reviews.length < 5 ? reviews.splice(0, reviews.length) : reviews.splice(0, 5);
 
         reviewList.forEach((review, i) => {
             if (i >= 5) return;
 
-            const comment = showComments(review.user_id, review, review.id);
+            const comment = showComments(review.user_id, review, review.id, token);
             reviewWrap.append(comment);
         });
     }
@@ -152,6 +158,12 @@
             gradeDom.querySelector('.score').textContent = json.total_grade;
             
             gradeDisplay(json.total_grade);
+        }).catch(err => {
+            const is_sign_in = confirm('로그인이 필요한 서비스입니다. 로그인 하시겠습니까?');
+
+            if (is_sign_in) location.href = 'login';
+
+            console.log(err);
         });
 
         Array.prototype.forEach.call(stars, star => {
@@ -169,8 +181,8 @@
                 reviews = json.review_list.reverse();
 
                 if (json.review_list.length <= 5) btnMore.classList.add('hide');
-
-                showReview(reviews);
+                
+                showReview(json.username);
             });
     }
 
