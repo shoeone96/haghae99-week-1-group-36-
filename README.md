@@ -33,5 +33,5 @@
 
 ***
 
-로그인, 회원가입 : 이중원(dlwnddnjs96@gmail.com)
+로그인, 회원가입 : 이중원(dlwnddnjs96@gmail.com) 
 영화 정보 스크래핑, 리뷰 등록/삭제: 홍성훈(hh4518@gmail.com)
