@@ -27,7 +27,6 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         username = db.userscinema.find_one({"username": payload['id']})
-        print(username)
         status = (0 != payload["exp"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
         return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username['username'], status=status)
     except jwt.ExpiredSignatureError:
@@ -101,9 +100,8 @@ def detail():
 
     code = int(request.args.get('code'))
     detail_info = get_movie_summary(code)
-
     get_grade = db.usersgrade.find_one({'code': code})
-    grade = get_grade['grade'] if get_grade else 0
+    grade = round(sum(get_grade['grade']) / len(get_grade['grade']), 1) if get_grade and get_grade['grade'] != [] else 0
 
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -144,8 +142,7 @@ def get_review():
 
         grade = {
             "code": receive['code'],
-            "grade": receive['grade'],
-            "count": 1
+            "grade": [receive['grade']]
         }
 
         doc = {
@@ -166,13 +163,12 @@ def get_review():
             db.usersgrade.insert_one(grade)
             send_grade = receive['grade']
         else:
-            count = get_grade['count'] + 1
-            send_grade = round((get_grade['grade'] * (count - 1) + receive['grade']) / count, 1)
+            send_grade = get_grade['grade']
+            send_grade.append(receive['grade'])
 
-            db.usersgrade.update_one({'code': receive['code']}, {'$set': {
-                'grade': send_grade,
-                'count': count
-            }})
+            db.usersgrade.update_one({'code': receive['code']}, {'$set':{'grade': send_grade}})
+
+            send_grade = round(sum(send_grade) / len(send_grade), 1)
 
         return jsonify({'user_id': user_info['username'], 'id': doc['id'], 'total_grade': send_grade})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
@@ -182,18 +178,12 @@ def get_review():
 def edit_review():
     receive = request.get_json()
     grade = db.usersgrade.find_one({'code': receive['code']})
-    count = grade['count'] - 1
-    send_grade = None
+    send_grade = grade['grade']
+    send_grade.remove(receive['grade'])
 
-    if count:
-        send_grade = round((grade['grade'] * (count + 1) - receive['grade']) / count, 1)
-    else:
-        send_grade = 0
+    db.usersgrade.update_one({'code': receive['code']}, {'$set':{'grade': send_grade}})
 
-    db.usersgrade.update_one({'code': receive['code']}, {'$set': {
-        'grade': send_grade,
-        'count': count
-    }})
+    send_grade = round(sum(send_grade) / len(send_grade), 1) if send_grade != [] else 0
     db.usersreview.delete_one({'id': int(receive['id'])})
 
     return jsonify({'result': 'success', 'total_grade': send_grade})
