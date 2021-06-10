@@ -4,43 +4,6 @@ import re
 
 headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
 
-class Node:
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-        self.right = None
-
-class BinSearch:
-    def __init__(self, root):
-        self.root = root
-        
-    def insert(self, value):
-        current_node = self.root
-        
-        while True:
-            if value['id'] < current_node.value['id']:
-                if current_node.left is None:
-                    current_node.left = Node(value)
-                    break
-                current_node = current_node.left
-            else:
-                if current_node.right is None:
-                    current_node.right = Node(value)
-                    break
-                current_node = current_node.right
-                
-    def search(self, value):
-        current_node = self.root
-        
-        while current_node:
-            if value['id'] == current_node.value['id']:
-                return current_node.value
-            elif value['id'] < current_node.value['id']:
-                current_node = current_node.left
-            else:
-                current_node = current_node.right
-        return None
-
 def no_space(text):
     text1 = re.sub('&nbsp; | &nbsp;| \n|\t|\r', '', text)
     text2 = re.sub('\n\n', '', text1)
@@ -94,13 +57,13 @@ def get_movie_info():
 
 movies = get_movie_info()
 
-movie_list = BinSearch(Node({ 'id': movies[0]['id'], 'idx': 0 }))
+movie_list = dict()
 
-for i in range(1, len(movies)):
-    movie_list.insert({ 'id': movies[i]['id'], 'idx': i })
+for movie in movies:
+    movie_list[movie['id']] = movie
 
 def get_movie_summary(id):
-    target = movies[movie_list.search({'id': id})['idx']]
+    target = movie_list[id]
     url = target['link']
     data = requests.get(url, headers=headers)
 

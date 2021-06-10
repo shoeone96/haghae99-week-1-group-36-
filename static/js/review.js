@@ -53,9 +53,8 @@
         reviewWrap.removeChild(delElem);
     }
 
-    const showComments = function(contents, id) {
+    const showComments = function(username, contents, id) {
         const idx = id;
-        // const username = contents.username;
         const score = contents.grade;
         const comment = contents.comment;
         const date = contents.date;
@@ -84,7 +83,7 @@
 
         gradeDisplay(score, grade);
         scoreDom.textContent = score;
-        // userId.textContent = usernamew;
+        userId.textContent = username;
         userComment.textContent = comment;
         dateDom.textContent = date;
         btnDel.textContent = '삭제';
@@ -112,7 +111,7 @@
         reviewList.forEach((review, i) => {
             if (i >= 5) return;
 
-            const comment = showComments(review, review.id);
+            const comment = showComments(review.user_id, review, review.id);
             reviewWrap.append(comment);
         });
     }
@@ -147,7 +146,7 @@
         request.post('/review/add', data)
         .then(response => response.json())
         .then(json => {
-            const review = showComments(data, json.id);
+            const review = showComments(json.user_id, data, json.id);
 
             reviewWrap.insertBefore(review, reviewWrap.firstChild);
             gradeDom.querySelector('.score').textContent = json.total_grade;
@@ -175,8 +174,6 @@
             });
     }
 
-    getReview();
-
     // EVENT HANDLER
     Array.prototype.forEach.call(stars, (star) => {
         star.addEventListener('mouseover', function() {
@@ -190,5 +187,6 @@
     btnMore.addEventListener('click', showMore);
 
     // FUNCTION EXCUTION
+    getReview();
     gradeDisplay();
 })();
