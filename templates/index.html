@@ -39,7 +39,11 @@
 
             <div class="log-in">
                 <button class="btn btn--log-in">
-                    <a href="/login">로그인</a>
+                    {% if not username %}
+                        <a href="/login">로그인</a>
+                    {% else %}
+                        <a href="/">로그아웃</a>
+                    {% endif %}
                 </button>
             </div>
 
