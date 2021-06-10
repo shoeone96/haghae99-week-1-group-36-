@@ -114,12 +114,13 @@
     }
 
     const showReview = function() {
+        const review = reviews.shift();
+        
         if (!reviews.length) {
             btnMore.classList.add('hide');
             return;
         }
 
-        const review = reviews.shift();
         const comment = showComments(review.user_id, review, review.id);
 
         reviewWrap.append(comment);
