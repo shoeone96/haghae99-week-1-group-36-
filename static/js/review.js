@@ -8,11 +8,19 @@
     const btnSubmit = document.querySelector('.btn--submit');
     const reviewWrap = document.querySelector('.review-wrap');
     const btnMore = document.querySelector('.btn--more');
+    const gradeDom = document.querySelector('.grade');
 
     // MUTABLE VARIABLE
     let reviews;
 
     // FUNCTION
+    const gradeDisplay = function(
+        score=parseFloat(gradeDom.querySelector('.score').textContent),
+        target=gradeDom
+    ) {
+        target.style.background = 'conic-gradient(#DA1300 0% ' + score * 10 + '%, #30333f ' + score * 10 + '% 100%)';
+    }
+
     const chooseScore = function(score) {
         scoreInfo.textContent = `${score}점`;
 
@@ -32,8 +40,15 @@
     }
 
     const modifyReview = function(id, delElem) {
-        request.post('/review/edit', { id })
-        .then(response => response.json());
+        const grade = parseInt(delElem.querySelector('.score').textContent)
+
+        request.post('/review/edit', { id, code, grade })
+        .then(response => response.json())
+        .then(json => {
+            gradeDom.querySelector('.score').textContent = json.total_grade;
+            
+            gradeDisplay(json.total_grade);
+        });
 
         reviewWrap.removeChild(delElem);
     }
@@ -53,9 +68,7 @@
         const userComment = document.createElement('p');
         const bottom = document.createElement('div');
         const dateDom = document.createElement('p');
-        const edit = document.createElement('div');
         const btnDel = document.createElement('button');
-        const editLink = document.createElement('a');
 
         review.id = idx;
         review.className = 'review';
@@ -66,22 +79,19 @@
         userComment.className = 'user-comment';
         bottom.className = 'review-bottom';
         dateDom.className = 'comment-date';
-        edit.className = 'edit-review';
         btnDel.className = 'btn--delete';
         btnDel.classList.add('btn');
 
-        grade.style.background = 'conic-gradient(#DA1300 0% ' + score * 10 + '%, #30333f ' + score * 10 + '% 100%)';
+        gradeDisplay(score, grade);
         scoreDom.textContent = score;
         // userId.textContent = usernamew;
         userComment.textContent = comment;
         dateDom.textContent = date;
-        editLink.textContent = '수정';
         btnDel.textContent = '삭제';
 
         grade.appendChild(scoreDom);
-        edit.appendChild(btnDel);
         bottom.appendChild(dateDom);
-        bottom.appendChild(edit);
+        bottom.appendChild(btnDel);
         description.appendChild(userId);
         description.appendChild(userComment);
         description.appendChild(bottom);
@@ -138,7 +148,11 @@
         .then(response => response.json())
         .then(json => {
             const review = showComments(data, json.id);
+
             reviewWrap.insertBefore(review, reviewWrap.firstChild);
+            gradeDom.querySelector('.score').textContent = json.total_grade;
+            
+            gradeDisplay(json.total_grade);
         });
 
         Array.prototype.forEach.call(stars, star => {
@@ -174,4 +188,7 @@
     inputReview.addEventListener('input', findTheLengthOfAString);
     btnSubmit.addEventListener('click', registerReview);
     btnMore.addEventListener('click', showMore);
+
+    // FUNCTION EXCUTION
+    gradeDisplay();
 })();

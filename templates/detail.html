@@ -117,24 +117,17 @@
                             </ul>
 
                             <div class="grade">
-                                <strong class="score">8.3</strong>
+                                <strong class="score">{{ grade }}</strong>
                             </div>
                         </div>
 
-                        <div class="btn--wrap">
-                            <!-- <button class="btn btn--like">
-                            <img src="../static/img/like-active.png" alt="like">
-                            <strong class="number-of-likes">106</strong>
-                        </button> -->
-
-                            <button class="btn btn--ticketing">
-                                {% if detail_info.reserve %}
-                                <a target="_blank" href={{ detail_info.reserve }}>예매하기</a>
-                                {% else %}
-                                <a target="_blank" href={{ detail_info.link }} class="naver-movie">네이버 영화</a>
-                                {% endif %}
-                            </button>
-                        </div>
+                        <button class="btn btn--ticketing">
+                            {% if detail_info.reserve %}
+                            <a target="_blank" href={{ detail_info.reserve }}>예매하기</a>
+                            {% else %}
+                            <a target="_blank" href={{ detail_info.link }} class="naver-movie">네이버 영화</a>
+                            {% endif %}
+                        </button>
                     </div>
                 </div>
 

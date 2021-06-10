@@ -94,7 +94,10 @@ def detail():
     code = int(request.args.get('code'))
     detail_info = get_movie_summary(code)
 
-    return render_template('detail.html', detail_info=detail_info)
+    get_grade = db.usersgrade.find_one({'code': code})
+    grade = get_grade['grade'] if get_grade else 0
+
+    return render_template('detail.html', detail_info=detail_info, grade=grade)
 
 @app.route('/review', methods=['GET'])
 def show_review():
@@ -109,6 +112,12 @@ def get_review():
     review_list = list(db.usersreview.find({}, {'_id':False}))
     id = 0 if not review_list else int(max(review_list, key=lambda x: x['id'])['id']) + 1
 
+    grade = {
+        "code": receive['code'],
+        "grade": receive['grade'],
+        "count": 1
+    }
+
     doc = {
         "code": receive['code'],
         "grade": receive['grade'],
@@ -117,16 +126,46 @@ def get_review():
         "id": id
     }
 
+    get_grade = db.usersgrade.find_one({'code': receive['code']})
+    send_grade = None
+
+    if get_grade is None:
+        db.usersgrade.insert_one(grade)
+        send_grade = receive['grade']
+    else:
+        count = get_grade['count'] + 1
+        send_grade = round((get_grade['grade'] * (count - 1) + receive['grade']) / count, 1)
+
+        db.usersgrade.update_one({'code': receive['code']}, {'$set': {
+            'grade': send_grade,
+            'count': count
+        }})
+
     db.usersreview.insert_one(doc)
 
-    return jsonify({'result': 'success', 'id': doc['id']})
+    return jsonify({'result': 'success', 'id': doc['id'], 'total_grade': send_grade})
 
 @app.route('/review/edit', methods=['POST'])
 def edit_review():
     receive = request.get_json()
+    grade = db.usersgrade.find_one({'code': receive['code']})
+    count = grade['count'] - 1
+    send_grade = None
+
+    print(count)
+    
+    if count:
+        send_grade = round((grade['grade'] * (count + 1) - receive['grade']) / count, 1)
+    else:
+        send_grade = 0
+
+    db.usersgrade.update_one({'code': receive['code']}, {'$set': {
+        'grade': send_grade,
+        'count': count
+    }})
     db.usersreview.delete_one({'id':int(receive['id'])})
 
-    return jsonify({'result': 'success'})
+    return jsonify({'result': 'success', 'total_grade': send_grade})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

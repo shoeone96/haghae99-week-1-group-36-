@@ -101,7 +101,7 @@
     height: 90%;
 }
 
-.section__info .basic-info .btn--wrap {
+.section__info .basic-info .btn--ticketing {
     width: 250px;
     position: absolute;
     bottom: 0;
@@ -270,14 +270,9 @@
     font-size: 14px;
 }
 
-.section__review .review .review-description .btn,
-.section__review .review .review-description .btn a {
+.section__review .review .review-description .btn {
     color: #999;
     font-size: 14px;
-}
-
-.section__review .review .review-description .btn--edit {
-    margin-right: 10px;
 }
 
 .section__review .review .review-description .btn:hover {

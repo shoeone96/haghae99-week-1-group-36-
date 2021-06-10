@@ -176,7 +176,7 @@ header.section .log-in a {
 
 .section__content .movie-info .hidden-box,
 .section__content .movie-info .hidden-box .btn--detail,
-.section__content .movie-info .hidden-box .grade {
+.section__content .movie-info .hidden-box .title {
     position: absolute;
     left: 0;
 }
@@ -200,18 +200,17 @@ header.section .log-in a {
     left: 50%;
 }
 
-.section__content .movie-info .hidden-box .grade {
+.section__content .movie-info .hidden-box .title {
     width: 100%;
     bottom: 0;
     padding: 20px 0;
     border-top: 1px solid rgba(255, 255, 255, .3);
     text-align: center;
-}
-
-.section__content .movie-info .hidden-box .grade .score {
-    color: #DA1300;
-    margin-left: 10px;
-    font-size: 23px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
 }
 
 .section__content .movie-info .info__link:hover .hidden-box {
@@ -219,34 +218,12 @@ header.section .log-in a {
 }
 
 /* INDEX, DETAIL COMMON STYLE */
-.btn--wrap {
+.btn--ticketing {
+    width: 100%;
     height: 40px;
-    display: flex;
-    justify-content: space-between;
 }
 
-.btn--wrap .btn--like {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: .4;
-    height: 100%;
-    border: 1px solid #F9FBFB;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.btn--wrap .btn--like img {
-    width: 24px;
-    margin-right: 8px;
-}
-
-.btn--wrap .btn--ticketing {
-    /* flex: .55; */
-    flex: 1;
-}
-
-.btn--wrap .btn--ticketing a {
+.btn--ticketing a {
     width: 100%;
     height: 100%;
     display: inline-flex;
@@ -256,7 +233,7 @@ header.section .log-in a {
     border-radius: 5px;
 }
 
-.btn--wrap .btn--ticketing .naver-movie {
+.btn--ticketing .naver-movie {
     background: #2CB300;
 }
 
