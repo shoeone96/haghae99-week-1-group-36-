@@ -27,6 +27,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         username = db.userscinema.find_one({"username": payload['id']})
+        print(username)
         status = (0 != payload["exp"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
         return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username['username'], status=status)
     except jwt.ExpiredSignatureError:
@@ -96,14 +97,23 @@ def sign_in():
 
 @app.route('/detail', methods=['GET'])
 def detail():
+    token_receive = request.cookies.get('mytoken')
+
     code = int(request.args.get('code'))
     detail_info = get_movie_summary(code)
 
     get_grade = db.usersgrade.find_one({'code': code})
     grade = get_grade['grade'] if get_grade else 0
 
-    return render_template('detail.html', detail_info=detail_info, grade=grade)
-
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        username = db.userscinema.find_one({"username": payload['id']})
+        status = (0 != payload["exp"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
+        return render_template('detail.html', detail_info=detail_info, grade=grade, username=username['username'], status=status)
+    except jwt.ExpiredSignatureError:
+        return render_template('detail.html', detail_info=detail_info, grade=grade)
+    except jwt.exceptions.DecodeError:
+        return render_template('detail.html', detail_info=detail_info, grade=grade)
 
 @app.route('/review', methods=['GET'])
 def show_review():
