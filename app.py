@@ -28,19 +28,16 @@ def home():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         username = db.userscinema.find_one({"username": payload['id']})
         status = (0 != payload["exp"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
-
         return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username['username'], status=status)
     except jwt.ExpiredSignatureError:
         return render_template('index.html', movie_list=movies[:20], page_count=page_count)
     except jwt.exceptions.DecodeError:
         return render_template('index.html', movie_list=movies[:20], page_count=page_count)
 
-
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
-
 
 @app.route('/login')
 def login():
@@ -110,18 +107,26 @@ def detail():
 
 @app.route('/review', methods=['GET'])
 def show_review():
+    token_receive = request.cookies.get('mytoken')
     code = int(request.args.get('id'))
     review_list = list(db.usersreview.find({'code': code}, {'_id': False}))
 
-    return jsonify({'review_list': review_list})
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.userscinema.find_one({"username": payload['id']})
+
+        return jsonify({'review_list': review_list, 'username': user_info['username']})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return jsonify({'review_list': review_list, 'username': None})
 
 
 @app.route('/review/add', methods=['POST'])
 def get_review():
     token_receive = request.cookies.get('mytoken')
+
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.userscinema.find_one({"id": payload['id']})
+        user_info = db.userscinema.find_one({"username": payload['id']})
         receive = request.get_json()
 
         review_list = list(db.usersreview.find({}, {'_id': False}))
@@ -134,7 +139,7 @@ def get_review():
         }
 
         doc = {
-            'user_id': user_info['id'],
+            'user_id': user_info['username'],
             "code": receive['code'],
             "grade": receive['grade'],
             "comment": receive['comment'],
@@ -159,12 +164,9 @@ def get_review():
                 'count': count
             }})
 
-        db.usersreview.insert_one(doc)
-
-        return jsonify({'result': 'success', 'id': doc['id'], 'total_grade': send_grade})
+        return jsonify({'user_id': user_info['username'], 'id': doc['id'], 'total_grade': send_grade})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
-
 
 @app.route('/review/edit', methods=['POST'])
 def edit_review():
@@ -172,8 +174,6 @@ def edit_review():
     grade = db.usersgrade.find_one({'code': receive['code']})
     count = grade['count'] - 1
     send_grade = None
-
-    print(count)
 
     if count:
         send_grade = round((grade['grade'] * (count + 1) - receive['grade']) / count, 1)
@@ -187,7 +187,6 @@ def edit_review():
     db.usersreview.delete_one({'id': int(receive['id'])})
 
     return jsonify({'result': 'success', 'total_grade': send_grade})
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
