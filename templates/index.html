@@ -57,8 +57,8 @@
             {% for movie in movie_list %}
             <div class="movie-info">
                 <a href="/detail" class="info__link" id={{ movie.id }}>
-                    {% if movie.id <= 10 %}
-                        <p class="rank">{{ movie.id }}</p>
+                    {% if movie.code <= 10 %}
+                        <p class="rank">{{ movie.code }}</p>
                     {% endif %}
                     <img src={{ movie.img }} alt={{ movie.title }}>
                     {% if movie.age %}
@@ -70,28 +70,19 @@
                             평점 / 후기 보기
                         </button>
 
-                        <div class="grade">
-                            관람평<strong class="score">8.3</strong>
-                        </div>
+                        <h2 class="title">
+                            {{ movie.title }}
+                        </h2>
                     </div>
                 </a>
 
-                <div class="btn--wrap">
-                    <!-- <button class="btn btn--like">
-                        <img src="../static/img/like-active.png" alt="like">
-                        <strong class="number-of-likes">106</strong>
-                    </button> -->
-
-                    
-                    <button class="btn btn--ticketing">
-                        {% if movie.reserve %}
-                            <a target="_blank" href={{ movie.reserve }}>예매하기</a>
-                        {% else %}
-                            <a target="_blank" href={{ movie.link }} class="naver-movie">네이버 영화</a>
-                        {% endif %}
-                    </button>
-                    
-                </div>
+                <button class="btn btn--ticketing">
+                    {% if movie.reserve %}
+                        <a target="_blank" href={{ movie.reserve }}>예매하기</a>
+                    {% else %}
+                        <a target="_blank" href={{ movie.link }} class="naver-movie">네이버 영화</a>
+                    {% endif %}
+                </button>
             </div>
             {% endfor %}
 

@@ -11,8 +11,6 @@
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <!-- FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
@@ -119,24 +117,17 @@
                             </ul>
 
                             <div class="grade">
-                                <strong class="score">8.3</strong>
+                                <strong class="score">{{ grade }}</strong>
                             </div>
                         </div>
 
-                        <div class="btn--wrap">
-                            <!-- <button class="btn btn--like">
-                            <img src="../static/img/like-active.png" alt="like">
-                            <strong class="number-of-likes">106</strong>
-                        </button> -->
-
-                            <button class="btn btn--ticketing">
-                                {% if detail_info.reserve %}
-                                <a target="_blank" href={{ detail_info.reserve }}>예매하기</a>
-                                {% else %}
-                                <a target="_blank" href={{ detail_info.link }} class="naver-movie">네이버 영화</a>
-                                {% endif %}
-                            </button>
-                        </div>
+                        <button class="btn btn--ticketing">
+                            {% if detail_info.reserve %}
+                            <a target="_blank" href={{ detail_info.reserve }}>예매하기</a>
+                            {% else %}
+                            <a target="_blank" href={{ detail_info.link }} class="naver-movie">네이버 영화</a>
+                            {% endif %}
+                        </button>
                     </div>
                 </div>
 
@@ -164,7 +155,7 @@
         </section>
 
         <!-- REVIEW -->
-        <section class="section section__review">
+        <section class="section section__review" id="review-section">
             <div class="container">
 
                 <div class="write-review">

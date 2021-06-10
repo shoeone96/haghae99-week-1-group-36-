@@ -1,4 +1,3 @@
-import re
 from pymongo import MongoClient
 import jwt
 import datetime
@@ -27,12 +26,20 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        username = db.users.find_one({"id": payload['id']})
-        return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username)
-    except jwt.ExpiredSignatureError:
-        return render_template('index.html', movie_list=movies[:20], page_count=page_count)
-    except jwt.exceptions.DecodeError:
-        return render_template('index.html', movie_list=movies[:20], page_count=page_count)
+
+<< << << < HEAD
+username = db.users.find_one({"id": payload['id']})
+return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username)
+== == == =
+username = db.userscinema.find_one({"username": payload['id']})
+
+return render_template('index.html', movie_list=movies[:20], page_count=page_count, username=username['username'])
+>> >> >> > 7
+aef5069339bedbb127cb603ba6d47b8f176b53a
+except jwt.ExpiredSignatureError:
+return render_template('index.html', movie_list=movies[:20], page_count=page_count)
+except jwt.exceptions.DecodeError:
+return render_template('index.html', movie_list=movies[:20], page_count=page_count)
 
 
 @app.route('/favicon.ico')
@@ -50,7 +57,7 @@ def login():
 @app.route('/login/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
-    exists = bool(db.users.find_one({"username": username_receive}))
+    exists = bool(db.userscinema.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
 
@@ -101,7 +108,10 @@ def detail():
     code = int(request.args.get('code'))
     detail_info = get_movie_summary(code)
 
-    return render_template('detail.html', detail_info=detail_info)
+    get_grade = db.usersgrade.find_one({'code': code})
+    grade = get_grade['grade'] if get_grade else 0
+
+    return render_template('detail.html', detail_info=detail_info, grade=grade)
 
 
 @app.route('/review', methods=['GET'])
@@ -114,25 +124,76 @@ def show_review():
 
 @app.route('/review/add', methods=['POST'])
 def get_review():
+
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.userscinema.find_one({"id": payload['id']})
         receive = request.get_json()
 
+        review_list = list(db.usersreview.find({}, {'_id': False}))
+        id = 0 if not review_list else int(max(review_list, key=lambda x: x['id'])['id']) + 1
+
+        grade = {
+            "code": receive['code'],
+            "grade": receive['grade'],
+            "count": 1
+        }
+
         doc = {
             'user_id': user_info['id'],
             "code": receive['code'],
             "grade": receive['grade'],
             "comment": receive['comment'],
-            "date": receive['date']
+            "date": receive['date'],
+            "id": id
         }
 
         db.usersreview.insert_one(doc)
 
-        return jsonify({'result': 'success'})
+        get_grade = db.usersgrade.find_one({'code': receive['code']})
+        send_grade = None
+
+        if get_grade is None:
+            db.usersgrade.insert_one(grade)
+            send_grade = receive['grade']
+        else:
+            count = get_grade['count'] + 1
+            send_grade = round((get_grade['grade'] * (count - 1) + receive['grade']) / count, 1)
+
+            db.usersgrade.update_one({'code': receive['code']}, {'$set': {
+                'grade': send_grade,
+                'count': count
+            }})
+
+        db.usersreview.insert_one(doc)
+
+        return jsonify({'result': 'success', 'id': doc['id'], 'total_grade': send_grade})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
+
+
+@app.route('/review/edit', methods=['POST'])
+def edit_review():
+    receive = request.get_json()
+    grade = db.usersgrade.find_one({'code': receive['code']})
+    count = grade['count'] - 1
+    send_grade = None
+
+    print(count)
+
+    if count:
+        send_grade = round((grade['grade'] * (count + 1) - receive['grade']) / count, 1)
+    else:
+        send_grade = 0
+
+    db.usersgrade.update_one({'code': receive['code']}, {'$set': {
+        'grade': send_grade,
+        'count': count
+    }})
+    db.usersreview.delete_one({'id': int(receive['id'])})
+
+    return jsonify({'result': 'success', 'total_grade': send_grade})
 
 
 if __name__ == '__main__':

@@ -7,8 +7,20 @@
     const reviewLength = document.querySelector('.length');
     const btnSubmit = document.querySelector('.btn--submit');
     const reviewWrap = document.querySelector('.review-wrap');
+    const btnMore = document.querySelector('.btn--more');
+    const gradeDom = document.querySelector('.grade');
+
+    // MUTABLE VARIABLE
+    let reviews;
 
     // FUNCTION
+    const gradeDisplay = function(
+        score=parseFloat(gradeDom.querySelector('.score').textContent),
+        target=gradeDom
+    ) {
+        target.style.background = 'conic-gradient(#DA1300 0% ' + score * 10 + '%, #30333f ' + score * 10 + '% 100%)';
+    }
+
     const chooseScore = function(score) {
         scoreInfo.textContent = `${score}점`;
 
@@ -27,8 +39,23 @@
         reviewLength.textContent = length;
     }
 
-    const showComments = function(contents) {
-        // const id = contents.id;
+    const modifyReview = function(id, delElem) {
+        const grade = parseInt(delElem.querySelector('.score').textContent)
+
+        request.post('/review/edit', { id, code, grade })
+        .then(response => response.json())
+        .then(json => {
+            gradeDom.querySelector('.score').textContent = json.total_grade;
+            
+            gradeDisplay(json.total_grade);
+        });
+
+        reviewWrap.removeChild(delElem);
+    }
+
+    const showComments = function(contents, id) {
+        const idx = id;
+        // const username = contents.username;
         const score = contents.grade;
         const comment = contents.comment;
         const date = contents.date;
@@ -41,10 +68,9 @@
         const userComment = document.createElement('p');
         const bottom = document.createElement('div');
         const dateDom = document.createElement('p');
-        const edit = document.createElement('div');
-        const btnEdit = document.createElement('button');
         const btnDel = document.createElement('button');
 
+        review.id = idx;
         review.className = 'review';
         grade.className = 'grade';
         scoreDom.className = 'score';
@@ -53,25 +79,19 @@
         userComment.className = 'user-comment';
         bottom.className = 'review-bottom';
         dateDom.className = 'comment-date';
-        edit.className = 'edit-review';
-        btnEdit.className = 'btn--edit';
         btnDel.className = 'btn--delete';
-        btnEdit.classList.add('btn');
         btnDel.classList.add('btn');
 
-        grade.style.background = 'conic-gradient(#DA1300 0% ' + score * 10 + '%, #30333f ' + score * 10 + '% 100%)';
+        gradeDisplay(score, grade);
         scoreDom.textContent = score;
-        // userId.textContent = id;
+        // userId.textContent = usernamew;
         userComment.textContent = comment;
         dateDom.textContent = date;
-        btnEdit.textContent = '수정';
         btnDel.textContent = '삭제';
 
         grade.appendChild(scoreDom);
-        edit.appendChild(btnEdit);
-        edit.appendChild(btnDel);
         bottom.appendChild(dateDom);
-        bottom.appendChild(edit);
+        bottom.appendChild(btnDel);
         description.appendChild(userId);
         description.appendChild(userComment);
         description.appendChild(bottom);
@@ -79,7 +99,28 @@
         review.appendChild(grade);
         review.appendChild(description);
 
+        btnDel.addEventListener('click', function() {
+            modifyReview(id, this.closest('.review'));
+        });
+
         return review;
+    }
+
+    const showReview = function() {
+        const reviewList = reviews.length < 5 ? reviews.splice(0, reviews.length) : reviews.splice(0, 5);
+
+        reviewList.forEach((review, i) => {
+            if (i >= 5) return;
+
+            const comment = showComments(review, review.id);
+            reviewWrap.append(comment);
+        });
+    }
+
+    const showMore = function() {
+        showReview();
+        
+        if (!reviews.length) btnMore.classList.add('hide');
     }
 
     const registerReview = function() {
@@ -104,9 +145,14 @@
         }
 
         request.post('/review/add', data)
-        .then(() => {
-            const review = showComments(data);
+        .then(response => response.json())
+        .then(json => {
+            const review = showComments(data, json.id);
+
             reviewWrap.insertBefore(review, reviewWrap.firstChild);
+            gradeDom.querySelector('.score').textContent = json.total_grade;
+            
+            gradeDisplay(json.total_grade);
         });
 
         Array.prototype.forEach.call(stars, star => {
@@ -121,16 +167,11 @@
         request.get(`/review?id=${code}`)
             .then(response => response.json())
             .then(json => {
-                if (json.review_list.length <= 5) {
-                    const showMore = document.querySelector('.btn--more');
-                    showMore.classList.add('hide');
-                }
+                reviews = json.review_list.reverse();
 
-                json.review_list.forEach((review, i) => {
-                    if (i >= 5) return;
-                    const comment = showComments(review);
-                    reviewWrap.append(comment);
-                });
+                if (json.review_list.length <= 5) btnMore.classList.add('hide');
+
+                showReview(reviews);
             });
     }
 
@@ -146,4 +187,8 @@
 
     inputReview.addEventListener('input', findTheLengthOfAString);
     btnSubmit.addEventListener('click', registerReview);
+    btnMore.addEventListener('click', showMore);
+
+    // FUNCTION EXCUTION
+    gradeDisplay();
 })();
