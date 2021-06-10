@@ -131,7 +131,7 @@
                 $("#register-confirm").focus()
                 return;
             } else {
-                $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
+                $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger")
             }
             $.ajax({
                 type: "POST",
