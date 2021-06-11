@@ -9,7 +9,7 @@
         const orderSpt = order.slice(1).split('=');
 
         linkObj[orderSpt[0]] = parseInt(orderSpt[1]);
-        linkObj.order === pageLink[linkObj.order].classList.add('selected');
+        pageLink[linkObj.order].classList.add('selected');
     }
 
     Array.prototype.forEach.call(pageLink, (page, idx) => {
